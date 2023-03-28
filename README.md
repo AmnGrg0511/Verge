@@ -1,6 +1,6 @@
 # Verge Scraper
 
-This is an example scraper that scrapes [The Verge](https://www.theverge.com) and smartly extracts all the articles link, headline, authors, and date of publication.
+This is an example scraper that scrapes [The Verge](https://www.theverge.com) and smartly extracts all the articles' link, headline, authors, and date of publication.
 
 ## Installation
 
@@ -27,8 +27,6 @@ pip install selenium
     python scrape_the_verge.py
     ```
     > Note: If you see any errors, please make sure all the packages are installed. 
-
-    <br/>
     
 1. Read the generated verge.db:
     ```sh
