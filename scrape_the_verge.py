@@ -48,8 +48,8 @@ def extract_data(article):
         ele = article.parent.parent
 
     # Filter links following author like pattern
-    authors = ' and '.join([str(x.string) for x in ele.find_all('a')
-                            if '/author' in x.get('href')])
+    authors = ' and '.join({str(x.string) for x in ele.find_all('a')
+                            if '/author' in x.get('href')})
 
     # Filter <span> elements following date like pattern
     date = [str(x.string) for x in ele.find_all('span')
