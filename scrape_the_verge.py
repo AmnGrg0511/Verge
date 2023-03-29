@@ -5,6 +5,7 @@ import re
 import dateparser
 import csv
 import sqlite3
+import os
 
 url = 'https://www.theverge.com'
 
@@ -78,12 +79,15 @@ def insert_data(title, link, authors, date):
 
 
 filename = datetime.today().strftime('%d%m%Y')+'_verge.csv'
+rerun = os.path.exists(filename)
 
 # Open the CSV file in write mode
-with open(filename, 'a', newline='') as f:
+with open(filename, 'a+', newline='') as f:
     # Create a writer object
     writer = csv.DictWriter(
         f, fieldnames=['id', 'link', 'title', 'authors', 'date'])
+    if not rerun:
+        writer.writeheader()
 
     # Connect to the database (create a new database if it doesn't exist)
     conn = sqlite3.connect('verge.db')
