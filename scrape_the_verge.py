@@ -54,7 +54,8 @@ def extract_data(article):
 
     # Filter <span> elements following date like pattern
     date = [str(x.string) for x in ele.find_all('span')
-            if re.search(r'\d\d', str(x.string)) or 'ago' in str(x.string)][0]
+            if re.search(r'\d\d', str(x.string))
+            or 'ago' in str(x.string)][0]
 
     # parse the string like 'two hours ago' to a datetime object
     date = dateparser.parse(date)
@@ -66,7 +67,9 @@ def extract_data(article):
 def insert_data(title, link, authors, date):
     try:
         cursor.execute(
-            "INSERT INTO articles ('title', 'link', 'authors', 'date') VALUES (?, ?, ?, ?)",
+            '''INSERT INTO articles 
+            (title, link, authors, date) 
+            VALUES (?, ?, ?, ?)''',
             (title, link, authors, date))
         # Write the data rows in csv
         writer.writerow({'id': cursor.lastrowid,
@@ -82,7 +85,7 @@ filename = datetime.today().strftime('%d%m%Y')+'_verge.csv'
 rerun = os.path.exists(filename)
 
 # Open the CSV file in write mode
-with open(filename, 'a+', newline='') as f:
+with open(filename, 'a+', encoding="utf-8", newline='') as f:
     # Create a writer object
     writer = csv.DictWriter(
         f, fieldnames=['id', 'link', 'title', 'authors', 'date'])
@@ -94,8 +97,13 @@ with open(filename, 'a+', newline='') as f:
     # Create a cursor object
     cursor = conn.cursor()
     # Create a table
-    cursor.execute('''CREATE TABLE IF NOT EXISTS articles
-                (id INTEGER PRIMARY KEY, title TEXT, link TEXT UNIQUE, authors TEXT, date DATE)''')
+    cursor.execute(
+        '''CREATE TABLE IF NOT EXISTS articles 
+        (id INTEGER PRIMARY KEY, 
+        title TEXT, 
+        link TEXT UNIQUE, 
+        authors TEXT, 
+        date DATE)''')
 
     articles = get_articles()
 
